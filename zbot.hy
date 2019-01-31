@@ -64,21 +64,21 @@
 
   (defn/a hyden [self]
     (setv hatch (. self.townhalls random))
-    (if (not (or (. (. (self.units SPAWNINGPOOL) ready) exists)
+    (cond [(and (not (or (. (. (self.units SPAWNINGPOOL) ready) exists)
                     (self.already_pending SPAWNINGPOOL)))
-            (when (self.can_afford SPAWNINGPOOL)
-              (await (self.build SPAWNINGPOOL :near hatch))))
-    (if (. (. (self.units SPAWNINGPOOL) ready) exists)
-            (if (and (not (or (. (self.units LAIR) exists)
-                              (self.already_pending LAIR)))
-                     (. hatch noqueue))
-              (when (self.can_afford LAIR)
-                (await (self.do (.build hatch LAIR))))))
-    (if (. (. (self.units LAIR) ready) exists)
-            (when (and (not (or (. (self.units HYDRALISKDEN) exists)
-                         (self.already_pending HYDRALISKDEN)))
-                      (self.can_afford HYDRALISKDEN))
-                  (await (self.build HYDRALISKDEN :near hatch)))))
+             (self.can_afford SPAWNINGPOOL))
+            (await (self.build SPAWNINGPOOL :near hatch))]
+          [(and (. (. (self.units SPAWNINGPOOL) ready) exists)
+                   (not (or (. (self.units LAIR) exists)
+                            (self.already_pending LAIR)))
+                   (. hatch noqueue)
+                   (self.can_afford LAIR))
+            (await (self.do (.build hatch LAIR)))]
+          [(and (. (. (self.units LAIR) ready) exists)
+             (not (or (. (self.units HYDRALISKDEN) exists)
+                      (self.already_pending HYDRALISKDEN)))
+             (self.can_afford HYDRALISKDEN))
+            (await (self.build HYDRALISKDEN :near hatch))]))
 
   (defn/a grow_hy [self]
     (for [larva (. (. (self.units LARVA) ready) noqueue)]
@@ -99,7 +99,7 @@
   (run_game (.get maps "AbyssalReefLE")
             [(Bot :race Race.Zerg :ai (rueBot))
              (Computer Race.Protoss Difficulty.Easy)]
-             :realtime False :save_replay_as (.format "ZvT-{}.SC2Replay" (.strftime time "%H%M%S"))))
+             :realtime False :save_replay_as (.format "ZvT-{}.SC2Replay" (.strftime time "%m%d%Y%H%M%S"))))
 
 (when (= --name-- "__main__")
   (main))
