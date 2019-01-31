@@ -6,6 +6,6 @@
 
 ![](hy-logo-small.png)
 
-&nbsp;&nbsp;&nbsp;&nbsp;Hy is essentially the Pythonic analogue of Clojure—in this case, Hy parses to the same ASTs that Python parses to; the language is somewhat unstable at present, but enjoyable to work with, giving an opportunity to progressively tinker with this bot as an enjoyable 'symbolic' practice project.
+&nbsp;&nbsp;&nbsp;&nbsp;Hy is essentially the Pythonic analogue of Clojure—in this case, Hy parses to the same ASTs that Python parses to; the language is somewhat unstable at present, but enjoyable to work with, giving an opportunity to progressively tinker with this bot as a 'symbolic' practice project.
 
 &nbsp;&nbsp;&nbsp;&nbsp;The port is simple and straightforward for now, as I work through the tutorials and examples and examine where to best make use of more Hy-specific idioms.
