@@ -25,14 +25,14 @@
     (await (self.attack)))
 
   (defn/a attack [self]
-    (setv waspish {HYDRALISK [15 5]
-                   MUTALISK [8 3]
-                   ZERGLING [30 15]})
+    (setv waspish {HYDRALISK [6 4]
+                   MUTALISK [4 2]
+                   ZERGLING [8 6]})
     (for [unit waspish]
       (if (and (> (. (self.units unit) amount)
                   (first (get waspish unit)))
                (> (. (self.units unit) amount)
-                  (nth (get waspish unit) 1))))
+                  (nth (get waspish unit) 1)))
           (for [w (. (self.units unit) idle)]
             (setv target (.find_target self self.state))
             (if target
@@ -40,14 +40,11 @@
                     (.attack w
                             (. target
                                position))))))
-          (when (and (> (. (self.units unit) amount)
-                        (nth (get waspish unit) 1))
-                     (> (len (self.known_enemy_units)) 0))
-            (for [w (. (self.units unit) idle)]
-                (await (self.do
-                        (.attack w
-                                 (random.choice
-                                    self.enemy_start_locations))))))))
+          (and (> (. (self.units unit) amount)
+                      (nth (get waspish unit) 1))
+                   (> (len (self.known_enemy_units)) 0))
+          (for [w (. (self.units unit) idle)]
+              (await (self.do (.attack w (random.choice self.enemy_start_locations))))))))
 
   (defn find_target [self state]
     (setv enemies self.known_enemy_units)
@@ -75,7 +72,7 @@
               (await (self.do (.build drone EXTRACTOR vesper)))))))))
 
   (defn/a expand [self]
-    (if (and (< (. self.townhalls amount) 2)
+    (if (and (< (. self.townhalls amount) 4)
              (self.can_afford HATCHERY))
       (await (self.expand_now))))
 
